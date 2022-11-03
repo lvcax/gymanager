@@ -1,0 +1,11 @@
+[default]
+SQLALCHEMY_TRACK_MODIFICATIONS=true
+
+[development]
+SQLALCHEMY_DATABASE_URI="postgresql://postgres:bancodedados@localhost/gymanager-dev"
+
+[production]
+SQLALCHEMY_DATABASE_URI="postgresql://postgres:bancodedados@localhost/gymanager-prod"
+
+[testing]
+SQLALCHEMY_DATABASE_URI="sqlite://"
