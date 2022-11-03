@@ -12,6 +12,7 @@ flask-sqlalchemy = "*"
 flask-migrate = "*"
 dynaconf = "*"
 psycopg2-binary = "*"
+loguru = "*"
 
 [dev-packages]
 
