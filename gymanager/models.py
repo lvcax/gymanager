@@ -3,7 +3,7 @@ import uuid
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 
-from gymanager.extensions.db import db
+from gymanager.extensions.database import db
 
 
 class Student(db.Model):
@@ -19,3 +19,6 @@ class Student(db.Model):
     is_active = db.Column(db.Boolean, default=True, nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
+
+    def __repr__(self) -> str:
+        return self.full_name

@@ -1,7 +1,11 @@
+from flask_restful import marshal
+
 from loguru import logger
 
+from gymanager.extensions.database import db
 from gymanager.models import Student
-from gymanager.extensions.db import db
+from gymanager.schemas import student_fields
+
 
 def create(data: dict) -> dict:
     """Register a new Student instance on database
@@ -18,16 +22,19 @@ def create(data: dict) -> dict:
         student.full_name = data.get("full_name")
         student.birth_date = data.get("birth_date")
         student.address = data.get("address")
+        student.number_address = data.get("number_address")
         student.phone = data.get("phone")
         student.email = data.get("email")
+    
+        db.session.add(student)
+        db.session.commit()
 
-        db.session.add(data)
-        db.commit()
-
-        return {"ok": "created", "data": data}
+        serialized_data = marshal(student, student_fields, "student")
+        return {"msg": "created", "data": serialized_data}
     except Exception as e:
         logger.error(e)
-        return {"error": "could not possible create register"}
+        db.session.rollback()
+        return {"msg": "could not possible create register"}
 
 def retrieve(id: str):
     query = db.select(Student).filter_by(id=id)
@@ -42,8 +49,13 @@ def delete(id: str):
     ...
 
 def list():
-    query = db.select(Student).order_by(Student.full_name)
-    students = db.session.execute(query)
+    """List all students in database
+
+    Returns:
+        Object: Query response
+    """
+
+    students = Student.query.all()
 
     return students
 

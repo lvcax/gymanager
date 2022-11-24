@@ -1,8 +1,9 @@
 from datetime import datetime
 
 from flask import abort, request
-from flask_restful import Resource
+from flask_restful import Resource, marshal_with
 
+from gymanager.schemas import student_fields
 from gymanager.controllers import student_controller
 from gymanager.utils.validators import validate_fields
 
@@ -16,7 +17,7 @@ class CreateStudent(Resource):
             data["birth_date"] = datetime.strptime(data.get("birth_date"), "%d/%m/%Y")
 
             response = student_controller.create(data)
-            if "ok" in response.keys():
+            if response.get("msg") == "created":
                 return response.get("data"), 201
             else:
                 return abort(500, response.get("error"))
@@ -24,7 +25,9 @@ class CreateStudent(Resource):
             return msg, 400
 
 class RetrieveStudent(Resource):
-    def get(self):
+
+    @marshal_with(fields=student_fields, envelope="student")
+    def get(self, id):
         return {}, 200
 
 class UpdateStudent(Resource):
@@ -36,5 +39,8 @@ class DeleteStudent(Resource):
         return {}, 200
 
 class ListStudents(Resource):
+
+    @marshal_with(fields=student_fields, envelope="students")
     def get(self):
-        return {"oi": "tudo bem?"}, 200
+        data = student_controller.list()
+        return data, 200

@@ -8,5 +8,7 @@ student_fields = {
     "address": fields.String,
     "phone": fields.String,
     "email": fields.String,
-    "is_active": fields.Boolean
+    "is_active": fields.Boolean,
+    "created_at": fields.DateTime,
+    "updated_at": fields.DateTime
 }
