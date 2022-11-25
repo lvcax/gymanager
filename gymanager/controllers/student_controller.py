@@ -1,5 +1,4 @@
 from flask_restful import marshal
-
 from loguru import logger
 
 from gymanager.extensions.database import db
@@ -36,28 +35,44 @@ def create(data: dict) -> dict:
         db.session.rollback()
         return {"msg": "could not possible create register"}
 
-def retrieve(id: str):
-    query = db.select(Student).filter_by(id=id)
-    student = db.session.execute(query)
+def retrieve(id: str) -> dict:
+    """Retrieve a giver instance from database
+    by Id.
 
-    return student
+    Args:
+        id (str): Student id
 
-def update(data: dict, id: str):
+    Returns:
+        dict: Dict containing a message and data if query works
+    """
+
+    try:
+        student = Student.query.filter_by(id=id).first()
+        serialized_data = marshal(student, student_fields, "student")
+        return {"msg": "ok", "data": serialized_data}
+    except Exception as e:
+        logger.error(e)
+        return {"msg": "object does not exist"}
+
+def update(data: dict, id: str) -> dict:
     ...
 
-def delete(id: str):
+def delete(id: str) -> dict:
     ...
 
-def list():
+def get_all() -> dict:
     """List all students in database
 
     Returns:
         Object: Query response
     """
-
-    students = Student.query.all()
-
-    return students
+    try:
+        students = Student.query.all()
+        serialized_data = marshal(students, student_fields, "students")
+        return {"msg": "ok", "data": serialized_data}
+    except Exception as e:
+        logger.error(e)
+        return {"msg": "could not possible retrieve data"}
 
 def deactivate(id: str):
     ...
