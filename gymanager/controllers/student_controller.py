@@ -21,7 +21,7 @@ def create(data: dict) -> dict:
     try:
         student = Student()
         student.full_name = data.get("full_name")
-        student.birth_date = data.get("birth_date")
+        student.birth_date = datetime.strptime(data.get("birth_date"), "%d/%m/%Y")
         student.address = data.get("address")
         student.number_address = data.get("number_address")
         student.phone = data.get("phone")

@@ -13,8 +13,6 @@ class CreateStudent(Resource):
         validation, msg = validate_fields(body, "student")
 
         if validation:
-            body["birth_date"] = datetime.strptime(body.get("birth_date"), "%d/%m/%Y")
-
             data = student_controller.create(body)
             if data.get("msg") == "created":
                 return data.get("data"), 201
