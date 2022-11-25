@@ -9,35 +9,45 @@ from gymanager.utils.validators import validate_fields
 
 class CreateStudent(Resource):
     def post(self):
-        data = request.json
-        validation, msg = validate_fields(data, "student")
+        body = request.json
+        validation, msg = validate_fields(body, "student")
 
         if validation:
-            data["birth_date"] = datetime.strptime(data.get("birth_date"), "%d/%m/%Y")
+            body["birth_date"] = datetime.strptime(body.get("birth_date"), "%d/%m/%Y")
 
-            response = student_controller.create(data)
-            if response.get("msg") == "created":
-                return response.get("data"), 201
+            data = student_controller.create(body)
+            if data.get("msg") == "created":
+                return data.get("data"), 201
             else:
-                return abort(500, response.get("error"))
+                return abort(500, data.get("error"))
         else:
             return msg, 400
 
 class RetrieveStudent(Resource):
     def get(self, id):
-        student = student_controller.retrieve(id)
-        if student.get("msg") == "ok":
-            return student.get("data"), 200
+        data = student_controller.retrieve(id)
+        if data.get("msg") == "ok":
+            return data.get("data"), 200
         else:
-            return abort(400, student.get("msg"))
+            return abort(400, data.get("msg"))
 
 class UpdateStudent(Resource):
-    def put(self):
-        return {}, 200
+    def put(self, id):
+        body = request.json
+        data = student_controller.update(body, id)
+
+        if data.get("msg") == "ok":
+            return data.get("data"), 200
+        else:
+            return abort(500, data.get("msg"))
 
 class DeleteStudent(Resource):
-    def delete(self):
-        return {}, 200
+    def delete(self, id):
+        data = student_controller.delete(id)
+        if data.get("msg") == "deleted":
+            return data.get("msg"), 204
+        else:
+            return abort(500, data.get("msg"))
 
 class ListStudents(Resource):
     def get(self):
