@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from flask import abort, request
 from flask_restful import Resource
 
@@ -10,16 +8,16 @@ from gymanager.utils.validators import validate_fields
 class CreateStudent(Resource):
     def post(self):
         body = request.json
-        validation, msg = validate_fields(body, "student")
+        result = validate_fields(body, "student")
 
-        if validation:
+        if result.get("msg") == "ok":
             data = student_controller.create(body)
             if data.get("msg") == "created":
                 return data.get("data"), 201
             else:
                 return abort(500, data.get("error"))
         else:
-            return msg, 400
+            return result, 400
 
 class RetrieveStudent(Resource):
     def get(self, id):

@@ -1,10 +1,32 @@
 import re
 
+from gymanager.extensions.database import db
+from gymanager.models import Student
+
+
 all_fields = {
     "student": [
         "full_name", "birth_date", "address", "phone", "email",
     ]
 }
+
+def check_existing_email(email: str) -> bool:
+    """Checks if email address is using in another count
+
+    Args:
+        email (str): new email to be save
+
+    Returns:
+        bool: "True if email is using, False is not
+    """
+
+    query_response = db.session.query(Student.email).all()
+    emails = [element[0] for element in query_response]
+    
+    if email in emails:
+        return True
+    else:
+        return False
 
 def validate_phone_number(phone_number: str) -> bool:
     """Verifies if a phone number is valid
@@ -23,7 +45,7 @@ def validate_phone_number(phone_number: str) -> bool:
 
     return True if result else False
 
-def validate_fields(data: dict, model: str) -> tuple:
+def validate_fields(data: dict, model: str) -> dict:
     """Validate fields from request
 
     Args:
@@ -31,9 +53,7 @@ def validate_fields(data: dict, model: str) -> tuple:
         model (str): Model to be referenced in validation
 
     Returns:
-        tuple[bool, dict[str]]: A tuple containing a bool value thah
-        indicates if validation has been successful or not and a dict
-        containing a message to be used in response
+        dict: Message validations
     """
 
     fields = all_fields.get(model)
@@ -44,16 +64,28 @@ def validate_fields(data: dict, model: str) -> tuple:
         if field not in data.keys():
             missing_fields.append(field)
     
+    response["msg"] = list()
+
     if len(missing_fields) == 0:
-        result = validate_phone_number(data.get("phone"))
-        if result == False:
-            return False, {"msg": "Error: invalid phone number"}
-        return True, {"msg": "ok"}
+        result_phone = validate_phone_number(data.get("phone"))
+        result_email = check_existing_email(data.get("email"))
+        
+        if result_phone == False:
+            response["msg"].append({"phone": "invalid phone number"})
+        if result_email == True:
+            response["msg"].append({"email": "email already in use"})
+        else:
+            response["msg"] = "ok"
     else:
         if "phone" not in missing_fields:
-            result = validate_phone_number(data.get("phone"))
-            response["phone"] = "" if result else "Error: invalid phone number"
+            result_phone = validate_phone_number(data.get("phone"))
+            if result_phone == False:
+                response["msg"].append({"phone": "invalid phone number"})
+        if "email" not in missing_fields:
+            result_email = check_existing_email(data.get("email"))
+            if result_email == True:
+                response["msg"].append({"email": "email already in use"})
         for field in missing_fields:
-            response[field] = "required field"
+            response["msg"].append({field: "required"})
     
-        return False, response
+    return response
