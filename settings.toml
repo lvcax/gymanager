@@ -1,5 +1,6 @@
 [default]
 SQLALCHEMY_TRACK_MODIFICATIONS=true
+SECRET_KEY="secret"
 
 [development]
 SQLALCHEMY_DATABASE_URI="postgresql://postgres:bancodedados@localhost/gymanager-dev"

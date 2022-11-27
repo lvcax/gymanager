@@ -13,6 +13,7 @@ flask-migrate = "*"
 dynaconf = "*"
 psycopg2-binary = "*"
 loguru = "*"
+flask-jwt-extended = "*"
 
 [dev-packages]
 

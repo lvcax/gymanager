@@ -8,6 +8,7 @@ from gymanager.resources.student import (
     UpdateStudent,
     DeleteStudent
 )
+from gymanager.resources.user import RegisterUser, LoginUser
 
 
 def init_app(app):
@@ -18,3 +19,5 @@ def init_app(app):
     api.add_resource(RetrieveStudent, "/student/<id>")
     api.add_resource(UpdateStudent, "/student/<id>/update")
     api.add_resource(DeleteStudent, "/student/<id>/delete")
+    api.add_resource(RegisterUser, "/user/register")
+    api.add_resource(LoginUser, "/user/auth/login")

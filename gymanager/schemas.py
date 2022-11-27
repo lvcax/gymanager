@@ -12,3 +12,12 @@ student_fields = {
     "created_at": fields.DateTime,
     "updated_at": fields.DateTime
 }
+
+user_fields ={
+    "id": fields.String,
+    "username": fields.String,
+    "email": fields.String,
+    "password": fields.String,
+    "created_at": fields.DateTime,
+    "updated_at": fields.DateTime
+}
