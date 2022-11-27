@@ -1,7 +1,7 @@
 from flask import Flask
 
 from gymanager import routes
-from gymanager.extensions import config, cors, database, jwt
+from gymanager.extensions import config, cors, database, jwt, mail_sender
 from gymanager.models import Student, User
 
 
@@ -12,6 +12,7 @@ def create_app():
     database.init_app(app)
     cors.init_app(app)
     jwt.init_app(app)
+    mail_sender.init_app(app)
     routes.init_app(app)
 
     @app.shell_context_processor

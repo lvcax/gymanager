@@ -8,7 +8,7 @@ from gymanager.resources.student import (
     UpdateStudent,
     DeleteStudent
 )
-from gymanager.resources.user import RegisterUser, LoginUser
+from gymanager.resources.user import RegisterUser, LoginUser, ForgetPasswordUser
 
 
 def init_app(app):
@@ -21,3 +21,4 @@ def init_app(app):
     api.add_resource(DeleteStudent, "/student/<id>/delete")
     api.add_resource(RegisterUser, "/user/register")
     api.add_resource(LoginUser, "/user/auth/login")
+    api.add_resource(ForgetPasswordUser, "/user/auth/forget-password")

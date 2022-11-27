@@ -24,7 +24,7 @@ class LoginUser(Resource):
         basic, code = request.headers.get("Authorization").split(" ")
 
         if not basic.lower() == "basic":
-            return {"msg": "f no chat"}
+            return {"msg": "invalid credentials"}, 400
         
         email, password = b64decode(code).decode("utf-8").split(":")
         result = user_controller.login(email, password)
@@ -34,6 +34,16 @@ class LoginUser(Resource):
         else:
             return result, 200
 
+class ForgetPasswordUser(Resource):
+    def post(self):
+        body = request.json
+
+        if "email" in body:
+            print("ok")
+            result = user_controller.forget_pass(body.get("email"))
+            return result
+        else:
+            return {"msg": "email required"}, 400
 
 class UpdateUser(Resource):
     def put(self):

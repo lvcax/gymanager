@@ -1,6 +1,13 @@
 [default]
 SQLALCHEMY_TRACK_MODIFICATIONS=true
 SECRET_KEY="@jinja {{env.SECRET_KEY}}"
+MAIL_SENDER="@jinja {{env.MAIL_SENDER}}"
+MAIL_SERVER="@jinja {{env.MAIL_SERVER}}"
+MAIL_PORT="@jinja {{env.MAIL_PORT}}"
+MAIL_USERNAME="@jinja {{env.MAIL_USERNAME}}"
+MAIL_PASSWORD="@jinja {{env.MAIL_PASSWORD}}"
+MAIL_USE_TLS="@jinja {{env.MAIL__USE_TLS}}"
+MAIL_USE_SSL="@jinja {{env.MAIL__USE_SSL}}"
 
 [development]
 SQLALCHEMY_DATABASE_URI="postgresql://postgres:bancodedados@localhost/gymanager-dev"
