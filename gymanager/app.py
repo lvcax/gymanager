@@ -2,7 +2,7 @@ from flask import Flask
 
 from gymanager import routes
 from gymanager.extensions import config, cors, database
-from gymanager.models import Student
+from gymanager.models import Student, User
 
 
 def create_app():
@@ -15,6 +15,6 @@ def create_app():
 
     @app.shell_context_processor
     def make_shell_context():
-        return dict(app=app, db=database, Student=Student)
+        return dict(app=app, db=database, Student=Student, User=User)
 
     return app
