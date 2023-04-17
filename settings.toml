@@ -1,0 +1,8 @@
+[default]
+SQLALCHEMY_TRACK_MODIFICATIONS=false
+
+[development]
+SQLALCHEMY_DATABASE_URI="postgresql://postgres@localhost:5432/gymanager-dev"
+
+[testing]
+SQLALCHEMY_DATABASE_URI = "sqlite:///testing.db"
