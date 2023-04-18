@@ -22,6 +22,7 @@ class Customer(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     registration = db.Column(db.String(6), nullable=False, unique=True, index=True)
     name = db.Column(db.String(130), nullable=False, unique=True)
+    email = db.Column(db.String(84), nullable=False, unique=True, index=True)
     birth_date = db.Column(db.DateTime(), nullable=False)
     address = db.Column(db.String(150), nullable=False)
     cpf = db.Column(db.String(15), nullable=False)
