@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "816636acbc517f85d1e96a11660bf8a95a179875857b4537fce73f9935eb62c3"
+            "sha256": "32d1cc8195a3e00d229bce1e2a80d6b3a82073af3bee81e379955065da7a091b"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -38,6 +38,14 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==8.1.3"
+        },
+        "cpf-cnpj-validate": {
+            "hashes": [
+                "sha256:611dfc08bf3c1c040ce47294d1c04e77e12b6b2d4e1029cc7a5ee2d2079c0ece",
+                "sha256:e30e125a1c4d4749b80e7f87ea192ccbcfbafb6c85b27833ecffc41da9df47ff"
+            ],
+            "index": "pypi",
+            "version": "==1.4"
         },
         "dynaconf": {
             "hashes": [

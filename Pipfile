@@ -12,6 +12,7 @@ sqlalchemy = "*"
 dynaconf = "*"
 python-dotenv = "*"
 psycopg2-binary = "*"
+cpf-cnpj-validate = "*"
 
 [dev-packages]
 
