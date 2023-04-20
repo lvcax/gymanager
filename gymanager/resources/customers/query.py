@@ -52,3 +52,17 @@ def delete_customer(customer_id):
             return jsonify({"error": "could not possible to delete customer"})
     else:
         return jsonify({"error": "could not possible to delete customer"})
+
+def change_customer_status(customer_id):
+    customer = Customer.query.filter_by(id=customer_id).first()
+    if not customer:
+        return jsonify({"error": "customer not found"})
+    
+    customer.status = True
+
+    try:
+        db.session.commit()
+        return customer
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": "could not possible to update customer"})

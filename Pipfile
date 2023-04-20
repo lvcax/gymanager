@@ -13,6 +13,7 @@ dynaconf = "*"
 python-dotenv = "*"
 psycopg2-binary = "*"
 cpf-cnpj-validate = "*"
+apscheduler = "*"
 
 [dev-packages]
 

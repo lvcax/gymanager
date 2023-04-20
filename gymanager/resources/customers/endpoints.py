@@ -42,3 +42,9 @@ class DeleteCustomer(Resource):
         response = query.delete_customer(id)
 
         return response
+
+class ChangeCustomerStatus(Resource):
+    def patch(self, id):
+        response = query.change_customer_status(id)
+
+        return marshal(response, customer_fields, "customer")
