@@ -28,6 +28,7 @@ class Customer(db.Model):
     cpf = db.Column(db.String(15), nullable=False)
     phone_number = db.Column(db.String(11), nullable=False)
     status = db.Column(db.Boolean, default=True, nullable=False)
+    joined_date = db.Column(db.DateTime(), nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 

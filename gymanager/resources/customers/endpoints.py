@@ -31,11 +31,32 @@ class CreateCustomer(Resource):
         parser.add_argument("email", type=str, required=True, help="field required")
         parser.add_argument("cpf", type=str, required=True, help="field required")
         parser.add_argument("phone_number", type=str, required=True, help="field required")
+        parser.add_argument("joined_date", type=str, required=True, help="fields required")
 
         data = parser.parse_args()
         customer = query.create_customer(data)
 
         return customer
+
+class UpdateCustomer(Resource):
+    @marshal_with(fields=customer_fields, envelope="customer")
+    def patch(self, id):
+        parser = reqparse.RequestParser()
+        
+        parser.add_argument("name", type=str)
+        parser.add_argument("birth_date", type=str)
+        parser.add_argument("address", type=str)
+        parser.add_argument("email", type=str)
+        parser.add_argument("cpf", type=str)
+        parser.add_argument("phone_number", type=str)
+        parser.add_argument("joined_date", type=str)
+        parser.add_argument("status", type=bool)
+
+        data = parser.parse_args()
+        customer = query.update_customer(id, data)
+
+        return customer
+
 
 class DeleteCustomer(Resource):
     def delete(self, id):

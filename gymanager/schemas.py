@@ -10,6 +10,7 @@ customer_fields = {
     "cpf": fields.String,
     "phone_number": fields.String,
     "status": fields.Boolean,
+    "joined_date": fields.DateTime,
     "created_at": fields.DateTime,
     "updated_at": fields.DateTime
 }
