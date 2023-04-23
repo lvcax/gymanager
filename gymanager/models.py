@@ -1,8 +1,10 @@
+from datetime import datetime, timedelta
 from uuid import uuid4
 
 from gymanager.extensions.database import db
 
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import func
 
 
@@ -34,3 +36,29 @@ class Customer(db.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    @hybrid_property
+    def next_payment_date(self):
+        next_payment = self.joined_date + timedelta(days=30)
+
+        if next_payment.weekday == 6:
+            next_payment += timedelta(days=1)
+        elif next_payment.weekday == 5:
+            next_payment += timedelta(days=2)
+        
+        return next_payment
+    
+    @hybrid_property
+    def customer_status_payment(self):
+        DIFF_DAYS = self.next_payment_date - datetime.now()
+        
+        if DIFF_DAYS.days >= 7 or DIFF_DAYS.days < 1:
+            return "close to pay"
+        elif DIFF_DAYS.days == 1:
+            return "pay tomorrow"
+        elif DIFF_DAYS.days == 0:
+            return "pay today"
+        elif DIFF_DAYS.days > 0 and self.status == False:
+            return "overdue"
+        else:
+            return "ok"

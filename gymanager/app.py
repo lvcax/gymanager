@@ -1,5 +1,6 @@
 from flask import Flask
 
+from gymanager import models
 from gymanager import routes
 from gymanager.extensions import conf
 from gymanager.extensions import cors
@@ -16,8 +17,8 @@ def create_app():
     routes.init_app(app)
     # scheduler.init_scheduler()
 
-    # @app.shell_context_processor
-    # def context_processor():
-    #     return dict(app=app, db=database.db, User=User)
+    @app.shell_context_processor
+    def context_processor():
+        return dict(app=app, db=database.db, Customer=models.Customer)
 
     return app

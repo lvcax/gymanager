@@ -11,6 +11,8 @@ customer_fields = {
     "phone_number": fields.String,
     "status": fields.Boolean,
     "joined_date": fields.DateTime,
+    "next_payment_date": fields.DateTime,
+    "customer_status_payment": fields.String,
     "created_at": fields.DateTime,
     "updated_at": fields.DateTime
 }
