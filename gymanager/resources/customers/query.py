@@ -2,7 +2,7 @@ from flask import jsonify
 from gymanager.models import Customer
 
 from gymanager.extensions.database import db
-from gymanager.utils.checkers import check_cpf
+from gymanager.resources.customers.checkers import check_email_already_in_use, check_cpf_already_in_use
 from gymanager.utils.generators import gen_registration_number
 
 
@@ -19,6 +19,13 @@ def get_customer_by_id(customer_id):
 def create_customer(data):
 
     registration = gen_registration_number()
+
+    if check_email_already_in_use(data.email):
+        return jsonify({"error": "email already in use"})
+    
+    cpf_already_in_use = check_cpf_already_in_use(data.cpf)
+    if cpf_already_in_use != None:
+        return cpf_already_in_use
 
     customer = Customer(
         registration=registration,
@@ -45,6 +52,13 @@ def update_customer(customer_id, data):
 
     if not customer:
         return jsonify({"error": "customer not found"})
+    
+    if check_email_already_in_use(data.email):
+        return jsonify({"error": "email already in use"})
+    
+    cpf_already_in_use = check_cpf_already_in_use(data.cpf)
+    if cpf_already_in_use != None:
+        return cpf_already_in_use
     
     dict(data)
     data_to_be_stored = dict()

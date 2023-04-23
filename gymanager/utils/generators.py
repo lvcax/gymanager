@@ -1,6 +1,6 @@
 import random
 
-from gymanager.utils.checkers import check_registration
+from gymanager.resources.customers.checkers import check_registration
 
 
 def gen_registration_number() -> str:
