@@ -1,5 +1,3 @@
-from flask import jsonify
-
 from gymanager.models import Customer
 
 from pycpfcnpj import cpfcnpj
@@ -19,12 +17,12 @@ def check_email_already_in_use(email: str) -> bool:
         return True
     return False
 
-def check_cpf_already_in_use(cpf: str) -> bool:
+def check_cpf(cpf: str) -> bool:
     if not cpfcnpj.validate(cpf):
-        return jsonify({"error": "invalid cpf"})
+        return {"error": "invalid cpf"}
 
     cpf_already_use = Customer.query.filter_by(cpf=cpf).first()
     if cpf_already_use:
-        return jsonify({"error": "cpf already in use"})
+        return {"error": "cpf already in use"}
     
     return None

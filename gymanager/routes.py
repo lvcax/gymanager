@@ -1,7 +1,14 @@
 from flask_restful import Api
 
 from gymanager.resources.auth.login import Login
-from gymanager.resources.customers.endpoints import ListCustomers, CreateCustomer, DeleteCustomer, GetCustomerById, ChangeCustomerStatus, UpdateCustomer
+from gymanager.resources.customers.resources import (
+    ListCustomers,
+    CreateCustomer,
+    DeleteCustomer,
+    GetCustomerById,
+    ChangeCustomerStatus,
+    UpdateCustomer
+)
 
 
 def init_app(app):
@@ -10,7 +17,7 @@ def init_app(app):
     api.add_resource(Login, "/auth/login")
     api.add_resource(ListCustomers, "/customers")
     api.add_resource(CreateCustomer, "/customers/create")
-    api.add_resource(DeleteCustomer, "/customers/<id>/delete")
-    api.add_resource(UpdateCustomer, "/customers/<id>/update")
     api.add_resource(GetCustomerById, "/customers/<id>")
-    api.add_resource(ChangeCustomerStatus, "/customers/<id>/change-status")
+    api.add_resource(UpdateCustomer, "/customers/update/<id>")
+    api.add_resource(DeleteCustomer, "/customers/delete/<id>")
+    api.add_resource(ChangeCustomerStatus, "/customers/change-status/<id>")

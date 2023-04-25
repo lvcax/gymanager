@@ -52,7 +52,7 @@ class Customer(db.Model):
     def customer_status_payment(self):
         DIFF_DAYS = self.next_payment_date - datetime.now()
         
-        if DIFF_DAYS.days >= 7 or DIFF_DAYS.days < 1:
+        if DIFF_DAYS.days >= 7 and DIFF_DAYS.days < 1:
             return "close to pay"
         elif DIFF_DAYS.days == 1:
             return "pay tomorrow"

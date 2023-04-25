@@ -5,7 +5,6 @@ from gymanager import routes
 from gymanager.extensions import conf
 from gymanager.extensions import cors
 from gymanager.extensions import database
-from gymanager.resources.customers import scheduler
 
 
 def create_app():
@@ -15,7 +14,6 @@ def create_app():
     database.init_app(app)
     cors.init_app(app)
     routes.init_app(app)
-    # scheduler.init_scheduler()
 
     @app.shell_context_processor
     def context_processor():
