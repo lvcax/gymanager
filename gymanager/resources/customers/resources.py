@@ -1,4 +1,6 @@
-from flask_restful import Resource, reqparse, marshal_with, marshal
+from flask import request
+from flask.json import jsonify
+from flask_restful import Resource, reqparse, marshal
 
 from gymanager.models import Customer
 from gymanager.resources.customers import query
@@ -8,10 +10,42 @@ from gymanager.utils.generators import gen_registration_number
 
 
 class ListCustomers(Resource):
-    @marshal_with(fields=customer_fields, envelope="customers")
     def get(self):
-        customers = query.list_customers()
-        return customers, 200
+        page = request.args.get("page", default=1, type=int)
+        customers = query.list_customers(page)
+
+        data = list()
+
+        for item in customers.items:
+            data.append({
+                "id": item.id,
+                "registration": item.registration,
+                "name": item.name,
+                "email": item.email,
+                "birth_date": item.birth_date,
+                "address": item.address,
+                "cpf": item.cpf,
+                "phone_number": item.phone_number,
+                "status": item.status,
+                "joined_date": item.joined_date,
+                "next_payment_date": item.next_payment_date,
+                "customer_status_payment": item.customer_status_payment,
+                "created_at": item.created_at,
+                "updated_at": item.updated_at
+            })
+
+        meta = {
+            "page": customers.page,
+            "pages": customers.pages,
+            "total_count": customers.total,
+            "prev_page": customers.prev_num,
+            "next_page": customers.next_num,
+            "has_next": customers.has_next,
+            "has_prev": customers.has_prev,
+        }
+
+        return jsonify({"customers": data, "meta": meta})
+
 
 
 class GetCustomerById(Resource):
@@ -49,7 +83,7 @@ class CreateCustomer(Resource):
 
         response = query.create_customer(data)
 
-        if type(response) == "dict":
+        if type(response) == dict:
             return response, 500
         
         return marshal(response, customer_fields, "customer"), 201

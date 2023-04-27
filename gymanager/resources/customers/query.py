@@ -2,8 +2,8 @@ from gymanager.models import Customer
 from gymanager.extensions.database import db
 
 
-def list_customers():
-    customers = Customer.query.all()
+def list_customers(page):
+    customers = Customer.query.paginate(page=page, per_page=5)
 
     return customers
 
