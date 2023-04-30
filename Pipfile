@@ -12,8 +12,13 @@ sqlalchemy = "*"
 dynaconf = "*"
 python-dotenv = "*"
 psycopg2-binary = "*"
+cpf-cnpj-validate = "*"
+apscheduler = "*"
+marshmallow = "*"
 
 [dev-packages]
+pytest = "*"
+pytest-flask = "*"
 
 [requires]
 python_version = "3.10"
