@@ -10,11 +10,15 @@ from gymanager.resources.customers.resources import (
     UpdateCustomer
 )
 
+from gymanager.resources.users.resources import RegisterUser, LoginUser, ForgetPassword
+
 
 def init_app(app):
     api = Api(app, prefix="/api")
 
-    api.add_resource(Login, "/auth/login")
+    api.add_resource(LoginUser, "/users/auth/login")
+    api.add_resource(RegisterUser, "/users/register")
+    api.add_resource(ForgetPassword, "/users/forget-password")
     api.add_resource(ListCustomers, "/customers")
     api.add_resource(CreateCustomer, "/customers/create")
     api.add_resource(GetCustomerById, "/customers/<id>")
